@@ -20,15 +20,16 @@ namespace Shopee.Services
         {
             try
             {
-                    var url = $"{GetUrlCommonsParametersRequest("/api/v2/order/get_order_detail")}";
+                var requestParameters = $"&order_sn_list={orderSn}";
+                var url = $"{GetUrlCommonsParametersRequest("/api/v2/order/get_order_detail") + requestParameters}";
 
-                    var response = await _httpClient.GetAsync(url);
-                    string json = await response.Content.ReadAsStringAsync();
+                var response = await _httpClient.GetAsync(url);
+                string json = await response.Content.ReadAsStringAsync();
 
-                    if (response.IsSuccessStatusCode)
-                        return JsonConvert.DeserializeObject<GetOrderDetailResponse>(json);
-                    else
-                        throw new HttpRequestException(json, null, response.StatusCode);
+                if (response.IsSuccessStatusCode)
+                    return JsonConvert.DeserializeObject<GetOrderDetailResponse>(json);
+                else
+                    throw new HttpRequestException(json, null, response.StatusCode);
 
                 return null;
             }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "x4e6Mz3tPrMRWu5TafJ6EU/bPOuYomHABIC51EUwKv79+Wf3Nl+JxzdLCTqURY0iTz7c9BpWvPyKKipBpkH9kA==",
+  "dgSpecHash": "DZtz00Y0At0UVFcky+rho3pGpUnLTkpIZIyDIwMIKLn5b1/u1tduHkCZmGN+gvIkh3d21ZqUkUNqIoF0udklSQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\prisc\\source\\repos\\Shopee\\Shopee\\Shopee.csproj",
+  "projectFilePath": "C:\\Users\\prisc\\source\\repos\\IntegrationTest\\Shopee\\Shopee.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\prisc\\.nuget\\packages\\easycaching.core\\1.4.1\\easycaching.core.1.4.1.nupkg.sha512",
     "C:\\Users\\prisc\\.nuget\\packages\\easycaching.redis\\1.4.1\\easycaching.redis.1.4.1.nupkg.sha512",

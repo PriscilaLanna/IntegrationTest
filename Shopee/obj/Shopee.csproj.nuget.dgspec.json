@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\prisc\\source\\repos\\Shopee\\Shopee\\Shopee.csproj": {}
+    "C:\\Users\\prisc\\source\\repos\\IntegrationTest\\Shopee\\Shopee.csproj": {}
   },
   "projects": {
-    "C:\\Users\\prisc\\source\\repos\\Shopee\\Shopee\\Shopee.csproj": {
+    "C:\\Users\\prisc\\source\\repos\\IntegrationTest\\Shopee\\Shopee.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\prisc\\source\\repos\\Shopee\\Shopee\\Shopee.csproj",
+        "projectUniqueName": "C:\\Users\\prisc\\source\\repos\\IntegrationTest\\Shopee\\Shopee.csproj",
         "projectName": "Shopee",
-        "projectPath": "C:\\Users\\prisc\\source\\repos\\Shopee\\Shopee\\Shopee.csproj",
+        "projectPath": "C:\\Users\\prisc\\source\\repos\\IntegrationTest\\Shopee\\Shopee.csproj",
         "packagesPath": "C:\\Users\\prisc\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\prisc\\source\\repos\\Shopee\\Shopee\\obj\\",
+        "outputPath": "C:\\Users\\prisc\\source\\repos\\IntegrationTest\\Shopee\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

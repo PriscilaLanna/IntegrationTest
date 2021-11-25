@@ -62,9 +62,9 @@ namespace Shopee.Services
         {
             var timeStamp = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds();
 
-            var base_string = String.Format("{0}{1}{2}", PartnerConfig.Partner_Id, endPoint, timeStamp);
+            var baseString = String.Format("{0}{1}{2}", PartnerConfig.Partner_Id, endPoint, timeStamp);
             var hash = new HMACSHA256(Encoding.UTF8.GetBytes(PartnerConfig.Partner_Key));
-            byte[] tmp_sign = hash.ComputeHash(Encoding.UTF8.GetBytes(base_string));
+            byte[] tmp_sign = hash.ComputeHash(Encoding.UTF8.GetBytes(baseString));
             var sign = BitConverter.ToString(tmp_sign).Replace("-", "").ToLower();
 
             return new SignParameters { TimeStamp = timeStamp, Sign = sign };

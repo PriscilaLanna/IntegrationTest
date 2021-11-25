@@ -1,4 +1,6 @@
-﻿namespace Shopee.Models.OrderDetail
+﻿using System.Collections.Generic;
+
+namespace Shopee.Models.OrderDetail
 {
     public class GetOrderDetailResponse
     {
@@ -11,7 +13,7 @@
 
     public class Response
     {
-        public OrderList Order_List { get; set; }
+        public List<OrderList> Order_List { get; set; }
     }
 
     public class OrderList
@@ -27,7 +29,7 @@
         public int Cancel_By { get; set; }
         public string Cancel_Reason { get; set; }
         public bool Cod { get; set; }
-        public int Create_Time { get; set; }
+        public long Create_Time { get; set; }
         public string Credit_Card_Number { get; set; }
         public string Currency { get; set; }
         public int Days_To_Ship { get; set; }
@@ -53,7 +55,7 @@
         public string Shipping_Carrier { get; set; }
         public bool Split_Up { get; set; }
         public decimal Total_Amount { get; set; }
-        public int Update_Time { get; set; }
+        public long Update_Time { get; set; }
     }
 
     public class InvoiceData 

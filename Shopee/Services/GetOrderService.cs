@@ -25,8 +25,8 @@ namespace Shopee.Services
         {
             try
             {
-                var timeFrom = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds();
-                var timeTo = ((DateTimeOffset)DateTime.Now.AddDays(15)).ToUnixTimeSeconds();
+                var timeFrom = ((DateTimeOffset)DateTime.Now.AddDays(-14)).ToUnixTimeSeconds();
+                var timeTo = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds();
                 var pageSize = 100;
                 var parameters = $"&time_range_field=create_time&time_from={timeFrom}&time_to={timeTo}&page_size={100}";
 
