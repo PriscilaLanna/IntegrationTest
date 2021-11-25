@@ -20,5 +20,6 @@ namespace Shopee.Models.Order
     public class OrderList
     {
         public string Order_Sn { get; set; }
+        public string Order_Status { get; set; }
     }
 }

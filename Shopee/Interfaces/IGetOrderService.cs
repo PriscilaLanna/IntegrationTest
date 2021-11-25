@@ -6,6 +6,6 @@ namespace Shopee.Interfaces
 {
     public interface IGetOrderService
     {
-        Task<List<GetOrderDetailResponse>> ExecuteAsync();
+        Task<GetOrderDetailResponse> ExecuteAsync();
     }
 }

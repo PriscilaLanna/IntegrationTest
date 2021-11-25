@@ -30,8 +30,6 @@ namespace Shopee.Services
                     return JsonConvert.DeserializeObject<GetOrderDetailResponse>(json);
                 else
                     throw new HttpRequestException(json, null, response.StatusCode);
-
-                return null;
             }
             catch (Exception ex)
             {

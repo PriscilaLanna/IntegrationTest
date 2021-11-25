@@ -5,6 +5,7 @@ using Shopee.Models.Order;
 using Shopee.Models.OrderDetail;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -21,39 +22,25 @@ namespace Shopee.Services
             _service = service;
         }
 
-        public async Task<List<GetOrderDetailResponse>> ExecuteAsync()
+        public async Task<GetOrderDetailResponse> ExecuteAsync()
         {
             try
             {
-                var timeFrom = ((DateTimeOffset)DateTime.Now.AddDays(-14)).ToUnixTimeSeconds();
-                var timeTo = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds();
-                var pageSize = 100;
-                var parameters = $"&time_range_field=create_time&time_from={timeFrom}&time_to={timeTo}&page_size={100}";
+                var order = new GetOrderResponse();
+                var detailsOrder = new List<GetOrderDetailResponse>();
 
-                var orders = new List<GetOrderResponse>();
-
-                var url = $"{GetUrlCommonsParametersRequest("/api/v2/order/get_order_list")}{parameters}";
-
-                var response = await _httpClient.GetAsync(url);
+                var response = await _httpClient.GetAsync(Url());
                 string json = await response.Content.ReadAsStringAsync();
                 var error = JsonConvert.DeserializeObject<ErrorResponse>(json);
 
                 if (response.IsSuccessStatusCode && string.IsNullOrEmpty(error.Error))
-                    orders.Add(JsonConvert.DeserializeObject<GetOrderResponse>(json));
+                    order = JsonConvert.DeserializeObject<GetOrderResponse>(json);
                 else
                     throw new HttpRequestException(json, null, response.StatusCode);
 
-                var detailsOrder = new List<GetOrderDetailResponse>();
-                foreach (var order in orders)
-                {
-                    foreach (var orderList in order.Response.Order_List)
-                    {
-                        var detail = await _service.ExecuteAsync(orderList.Order_Sn);
-                        detailsOrder.Add(detail);
-                    }
-                }
+                string ordersSn = String.Join(",", order.Response.Order_List.Select(x => x.Order_Sn));
 
-                return detailsOrder;
+                return await _service.ExecuteAsync(ordersSn);
             }
             catch (Exception ex)
             {
@@ -61,9 +48,14 @@ namespace Shopee.Services
             }
         }
 
-        private object List<T>()
+        private string Url()
         {
-            throw new NotImplementedException();
+            var timeFrom = ((DateTimeOffset)DateTime.Now.AddDays(-14)).ToUnixTimeSeconds();
+            var timeTo = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds();
+            var pageSize = 100;
+            var requestParameters = $"&time_range_field=create_time&time_from={timeFrom}&time_to={timeTo}&page_size={pageSize}";
+            var url = $"{GetUrlCommonsParametersRequest("/api/v2/order/get_order_list")}{requestParameters}";
+            return url;
         }
     }
 }
