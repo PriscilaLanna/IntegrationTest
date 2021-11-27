@@ -28,21 +28,13 @@ namespace Shopee.Services
             {
                 var url = $"{GetUrlAuth("/api/v2/auth/access_token/get")}";
 
-                int.TryParse(_provider.GetCache("shop_Id").ToString(), out var shopId);
+                int.TryParse(_provider.GetCache("shopId").ToString(), out var shopId);
                 var refreshToken = _provider.GetCache("refreshToken").ToString();
-
                 var response = new HttpResponseMessage();
 
                 if (shopId > 0) 
                 {
                     var body = new { refresh_token = refreshToken, partner_id = GetPartnerId(), shop_id = shopId };
-                    response = await _httpClient.PostAsJsonAsync(url, body);
-                }
-                else 
-                {
-                    var teste = GetMerchantIds();
-
-                    var body = new { refresh_token = refreshToken, partner_id = GetPartnerId(), merchant_Id = teste.FirstOrDefault() };
                     response = await _httpClient.PostAsJsonAsync(url, body);
                 }
               

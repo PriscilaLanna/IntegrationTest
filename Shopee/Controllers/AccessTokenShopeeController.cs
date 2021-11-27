@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Shopee.Interfaces;
 using Shopee.Models;
@@ -13,18 +14,20 @@ namespace Shopee.Controllers
     [Route("[controller]")]
     public class AccessTokenShopeeController : ControllerBase
     {
-        public AccessTokenShopeeController(IProviderCache provider)
+        private readonly IConfiguration _configuration;
+        public AccessTokenShopeeController(IProviderCache provider, IConfiguration configuration)
         {
+            _configuration = configuration;
         }
 
         [HttpGet]
-        public async Task<ActionResult> AccessToken([FromServices] IAccessTokenService accessTokenService, [FromQuery] string code, int shop_Id, int main_account_id)  
+        public async Task<ActionResult> AccessToken([FromServices] IAccessTokenService accessTokenService, [FromQuery] string code, int shop_Id)  
         {
-            var redirectUrl = "https://development-emissor.ao3tech.com/";
+            var redirectUrl = _configuration["RedirectUrl"];
              
             try
             {
-                var accessToken = await accessTokenService.ExecuteAsync(code, shop_Id, main_account_id);
+                var accessToken = await accessTokenService.ExecuteAsync(code, shop_Id);
                 return Redirect(redirectUrl);
             }
             catch (HttpRequestException ex)
