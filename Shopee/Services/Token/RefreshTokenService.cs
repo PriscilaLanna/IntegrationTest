@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Shopee.Interfaces;
 using Shopee.Models;
 using System;
@@ -15,7 +16,7 @@ namespace Shopee.Services
         private readonly HttpClient _httpClient;
         private readonly IProviderCache _provider;
 
-        public RefreshTokenService(IProviderCache provider) : base(provider)
+        public RefreshTokenService(IProviderCache provider, IOptions<PartnerConfig> partner) : base(provider, partner)
         {
             _httpClient = new HttpClient();
             _provider = provider;
@@ -34,14 +35,14 @@ namespace Shopee.Services
 
                 if (shopId > 0) 
                 {
-                    var body = new { refresh_token = refreshToken, partner_id = PartnerConfig.Partner_Id, shop_id = shopId };
+                    var body = new { refresh_token = refreshToken, partner_id = GetPartnerId(), shop_id = shopId };
                     response = await _httpClient.PostAsJsonAsync(url, body);
                 }
                 else 
                 {
                     var teste = GetMerchantIds();
 
-                    var body = new { refresh_token = refreshToken, partner_id = PartnerConfig.Partner_Id, merchant_Id = teste.FirstOrDefault() };
+                    var body = new { refresh_token = refreshToken, partner_id = GetPartnerId(), merchant_Id = teste.FirstOrDefault() };
                     response = await _httpClient.PostAsJsonAsync(url, body);
                 }
               

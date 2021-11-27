@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Shopee.Interfaces;
 using Shopee.Models;
+using Shopee.Models.WebHook;
 using Shopee.Services;
 using System;
 using System.Net.Http;
@@ -19,11 +20,11 @@ namespace Shopee.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Push([FromServices]IWebHookService service, [FromBody] string body)  
+        public async Task<ActionResult> Push([FromServices]IWebHookService service, [FromBody] WebHookRequest body)  
         {
             try
             {
-                service.ExecuteAsync(body);
+                service.ExecuteAsync(body, "");
                 return Ok();
             }
             catch (HttpRequestException ex)

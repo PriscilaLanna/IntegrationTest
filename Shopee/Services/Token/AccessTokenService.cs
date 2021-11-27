@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Shopee.Interfaces;
 using Shopee.Models;
 using System;
@@ -14,7 +15,7 @@ namespace Shopee.Services
         private readonly HttpClient _httpClient;
         private readonly IProviderCache _provider;
 
-        public AccessTokenService(IProviderCache provider) : base(provider)
+        public AccessTokenService(IProviderCache provider, IOptions<PartnerConfig> partner) : base(provider, partner)
         {
             _httpClient = new HttpClient();
             _provider = provider;
@@ -27,7 +28,7 @@ namespace Shopee.Services
                 var url = $"{GetUrlAuth("/api/v2/auth/token/get")}";
                 var response = new HttpResponseMessage();
 
-                var body = new { code = code, partner_id = PartnerConfig.Partner_Id, shop_id = shopId };
+                var body = new { code = code, partner_id = GetPartnerId(), shop_id = shopId };
                 response = await _httpClient.PostAsJsonAsync(url, body);
 
                 //if (main_account_id > 0)

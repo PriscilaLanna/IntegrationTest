@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Shopee.Interfaces;
+using Shopee.Models;
 using Shopee.Services;
 using System;
 
@@ -40,6 +41,10 @@ namespace Shopee
             services.AddTransient<IGetOrderDetailService, GetOrderDetailService>();
             services.AddTransient<IPostProductService, PostProductService>();
             services.AddTransient<IWebHookService, WebHookService>();
+
+            // Appsettings configuration
+            services.AddOptions();
+            services.Configure<PartnerConfig>(Configuration.GetSection("Shopee:PartnerConfig"));
 
             var serializerName = "easycaching_setting";
             services.AddEasyCaching(options =>

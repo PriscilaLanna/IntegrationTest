@@ -1,4 +1,5 @@
-﻿using Shopee.Models;
+﻿using Microsoft.Extensions.Options;
+using Shopee.Models;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -9,10 +10,12 @@ namespace Shopee.Services
     public abstract class BaseServiceShopee
     {
         private readonly IProviderCache _provider;
+        private readonly PartnerConfig _partner;
 
-        public BaseServiceShopee(IProviderCache provider)
+        public BaseServiceShopee(IProviderCache provider, IOptions<PartnerConfig> partner)
         {
             _provider = provider;
+            _partner = partner.Value;
         }
 
         public string GetUrlAuth(string endpoint) => $"https://partner.test-stable.shopeemobile.com{endpoint}{GetCommonParametersPublic(endpoint)}";
@@ -21,9 +24,9 @@ namespace Shopee.Services
 
         public int GetShopId() => int.Parse(_provider.GetCache("shopId").ToString());
 
-        public List<int> GetMerchantIds() => _provider.GetListCache("merchantIds");
+        public int GetPartnerId() => _partner.PartnerId;
 
-        //public void ResetAllCache() => _provider.Reset();
+        public List<int> GetMerchantIds() => _provider.GetListCache("merchantIds");
 
         private string GetCommonParametersPublic(string endpoint)
         {
@@ -31,7 +34,7 @@ namespace Shopee.Services
 
             var parameters = new CommonParameters()
             {
-                Partner_Id = PartnerConfig.Partner_Id,
+                Partner_Id = _partner.PartnerId,
                 Sign = signParameters.Sign,
                 TimeStamp = signParameters.TimeStamp
             };
@@ -48,7 +51,7 @@ namespace Shopee.Services
 
             var parameters = new CommonParameters()
             {
-                Partner_Id = PartnerConfig.Partner_Id,
+                Partner_Id = _partner.PartnerId,
                 Sign = signParameters.Sign,
                 TimeStamp = signParameters.TimeStamp,
                 Shop_Id = shopId,
@@ -62,8 +65,8 @@ namespace Shopee.Services
         {
             var timeStamp = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds();
 
-            var baseString = String.Format("{0}{1}{2}", PartnerConfig.Partner_Id, endPoint, timeStamp);
-            var hash = new HMACSHA256(Encoding.UTF8.GetBytes(PartnerConfig.Partner_Key));
+            var baseString = String.Format("{0}{1}{2}", _partner.PartnerId, endPoint, timeStamp);
+            var hash = new HMACSHA256(Encoding.UTF8.GetBytes(_partner.PartnerKey));
             byte[] tmp_sign = hash.ComputeHash(Encoding.UTF8.GetBytes(baseString));
             var sign = BitConverter.ToString(tmp_sign).Replace("-", "").ToLower();
 
@@ -74,26 +77,14 @@ namespace Shopee.Services
         {
             var timeStamp = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds();
 
-            var base_string = String.Format("{0}{1}{2}{3}{4}", PartnerConfig.Partner_Id, endPoint, timeStamp, acessToken, shopId);
-            var hash = new HMACSHA256(Encoding.UTF8.GetBytes(PartnerConfig.Partner_Key));
+            var base_string = String.Format("{0}{1}{2}{3}{4}", _partner.PartnerId, endPoint, timeStamp, acessToken, shopId);
+            var hash = new HMACSHA256(Encoding.UTF8.GetBytes(_partner.PartnerKey));
             byte[] tmp_sign = hash.ComputeHash(Encoding.UTF8.GetBytes(base_string));
             var sign = BitConverter.ToString(tmp_sign).Replace("-", "").ToLower();
 
             return new SignParameters { TimeStamp = timeStamp, Sign = sign };
         }
-
-        //private SignParameters GenerateSignMerchant(string endPoint, string acessToken, int merchantId)
-        //{
-        //    var timeStamp = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds();
-
-        //    var base_string = String.Format("{0}{1}{2}{3}{4}", PartnerConfig.Partner_Id, endPoint, timeStamp, acessToken, merchantId);
-        //    var hash = new HMACSHA256(Encoding.UTF8.GetBytes(PartnerConfig.Partner_Key));
-        //    byte[] tmp_sign = hash.ComputeHash(Encoding.UTF8.GetBytes(base_string));
-        //    var sign = BitConverter.ToString(tmp_sign).Replace("-", "").ToLower();
-
-        //    return new SignParameters { TimeStamp = timeStamp, Sign = sign };
-        //}
-
+             
         private class SignParameters
         {
             public long TimeStamp { get; set; }

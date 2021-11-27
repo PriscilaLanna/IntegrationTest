@@ -1,5 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Shopee.Interfaces;
+using Shopee.Models;
 using Shopee.Models.OrderDetail;
 using System;
 using System.Net.Http;
@@ -11,7 +13,7 @@ namespace Shopee.Services
     {
         private readonly HttpClient _httpClient;
 
-        public GetOrderDetailService(IProviderCache provider) : base(provider)
+        public GetOrderDetailService(IProviderCache provider, IOptions<PartnerConfig> partner) : base(provider, partner)
         {
             _httpClient = new HttpClient();
         }

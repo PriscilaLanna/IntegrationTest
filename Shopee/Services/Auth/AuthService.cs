@@ -1,4 +1,5 @@
-﻿using Shopee.Interfaces;
+﻿using Microsoft.Extensions.Options;
+using Shopee.Interfaces;
 using Shopee.Models;
 using System;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace Shopee.Services
     public class AuthService : BaseServiceShopee, IAuthService
     {
 
-        public AuthService(IProviderCache provider) : base(provider)
+        public AuthService(IProviderCache provider, IOptions<PartnerConfig> partner) : base(provider, partner)
         {
         }
 
