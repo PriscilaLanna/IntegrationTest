@@ -5,11 +5,11 @@ namespace Shopee.Models.WebHook
     public class WebHookRequest
     {
         public int Code { get; set; }
-        public int Shop_Iid { get; set; }
+        public int Shop_Id { get; set; }
         public long TimeStamp { get; set; }
         public Data Data { get; set; }
-        public bool Success { get; set; }
-        public string Extra { get; set; }
+        //public bool Success { get; set; }
+       // public string Extra { get; set; }
 
     }
 
@@ -19,7 +19,7 @@ namespace Shopee.Models.WebHook
         public string OrderSn { get; set; }
         public string Status { get; set; }
         public long Update_Time { get; set; }
-        public string TrackingNo { get; set; }
+        //public string TrackingNo { get; set; }
     }
 
     public class Items

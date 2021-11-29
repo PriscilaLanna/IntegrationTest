@@ -1,11 +1,9 @@
-﻿using Shopee.Models;
-using Shopee.Models.WebHook;
-using System.Threading.Tasks;
+﻿using Shopee.Models.WebHook;
 
 namespace Shopee.Interfaces
 {
     public interface IWebHookService
     {
-        void ExecuteAsync(WebHookRequest webhook, string authorizationy);
+        void ExecuteAsync(string url, string authorization, WebHookRequest webhook);
     }
 }

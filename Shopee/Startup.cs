@@ -40,7 +40,9 @@ namespace Shopee
             services.AddTransient<IGetOrderService, GetOrderService>();
             services.AddTransient<IGetOrderDetailService, GetOrderDetailService>();
             services.AddTransient<IPostProductService, PostProductService>();
+           
             services.AddTransient<IWebHookService, WebHookService>();
+            services.AddTransient<IStatusOrderWebHookService, StatusOrderWebHookService>();
 
             // Appsettings configuration
             services.AddOptions();

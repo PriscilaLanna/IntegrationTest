@@ -20,11 +20,12 @@ namespace Shopee.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Push([FromServices]IWebHookService service, [FromBody] WebHookRequest body)  
+        public async Task<ActionResult> Push([FromServices]IWebHookService service,[FromHeader] string authorization, [FromBody] WebHookRequest body)  
         {
             try
             {
-                service.ExecuteAsync(body, "");
+                var url = "https://webhook.site/5d2b0c11-ec67-4952-a295-8606d3e0b236"; //TODO Alterar para pegar url da requisição
+                service.ExecuteAsync(url, authorization, body);
                 return Ok();
             }
             catch (HttpRequestException ex)
